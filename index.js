@@ -1,5 +1,6 @@
 /**
  * @format
+ * 프론트 파일 시작점
  */
 
 import {AppRegistry} from 'react-native';
