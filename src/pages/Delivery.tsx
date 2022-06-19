@@ -9,7 +9,7 @@ function Delivery() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Ing" component={Ing} options={{title: '내 오더'}} />
-      <Stack.Screen
+      <Stack.Screen //지도위에 완료처리 화면을 스택으로 쌓음
         name="Complete"
         component={Complete}
         options={{title: '완료하기'}}
