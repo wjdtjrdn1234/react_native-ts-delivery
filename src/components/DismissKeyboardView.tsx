@@ -2,14 +2,17 @@ import React from 'react';
 import {
   TouchableWithoutFeedback,
   Keyboard,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   StyleProp,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ViewStyle,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const DismissKeyboardView = ({children, ...props}) => (
+//키보드 내리기 + 키보드가 인풋창 피하기
+
+const DismissKeyboardView: React.FC<{
+  children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+}> = ({children, ...props}) => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <KeyboardAwareScrollView {...props} style={props.style}>
       {children}

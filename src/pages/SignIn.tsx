@@ -130,3 +130,7 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
+//StyleSheet.compose(styles.loginButton, styles.loginButtonActive) 둘이합쳐지는데 , 우선순위가 뒤에가 높음
+//trim:공백제거
+//secureTextEntry:비밀번호 암호로
+//TextInput option들은 공식문서 참고
