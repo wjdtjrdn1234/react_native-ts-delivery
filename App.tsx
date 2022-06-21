@@ -1,33 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Provider, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './src/store';
-import {RootState} from './src/store/reducer';
 import AppInner from './AppIneer';
 
-export type LoggedInParamList = {
-  Orders: undefined;
-  Settings: undefined;
-  Delivery: undefined;
-  Complete: {orderId: string};
-};
-
-export type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-};
-
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-
 function App() {
-  const isLoggedIn = useSelector((state: RootState) => state.user.email);
   return (
     <Provider store={store}>
-      <AppInner />
+      <NavigationContainer>
+        <AppInner />
+      </NavigationContainer>
     </Provider>
   );
 }
