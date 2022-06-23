@@ -8,8 +8,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
-// import useSocket from './src/hooks/useSocket';
-// import {useEffect} from 'react';
+import useSocket from './src/hooks/useSocket';
+import {useEffect} from 'react';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -26,33 +26,35 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+//소켓은 (키,값) 형식으로 데이터 주고받음
+
 function AppInner() {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
 
-  // const [socket, disconnect] = useSocket();
+  const [socket, disconnect] = useSocket();
 
-  // useEffect(() => {
-  //   const helloCallback = (data: any) => {
-  //     console.log(data);
-  //   };
-  //   if (socket && isLoggedIn) {
-  //     console.log(socket);
-  //     socket.emit('login', 'hello');
-  //     socket.on('hello', helloCallback);
-  //   }
-  //   return () => {
-  //     if (socket) {
-  //       socket.off('hello', helloCallback);
-  //     }
-  //   };
-  // }, [isLoggedIn, socket]);
+  useEffect(() => {
+    const helloCallback = (data: any) => {
+      console.log(data);
+    };
+    if (socket && isLoggedIn) {
+      console.log(socket);
+      socket.emit('login', 'hello'); //데이터주기
+      socket.on('hello', helloCallback); //데이터받기
+    }
+    return () => {
+      if (socket) {
+        socket.off('hello', helloCallback); //데이터받기 끊기
+      }
+    };
+  }, [isLoggedIn, socket]);
 
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     console.log('!isLoggedIn', !isLoggedIn);
-  //     disconnect();
-  //   }
-  // }, [isLoggedIn, disconnect]);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      console.log('!isLoggedIn', !isLoggedIn);
+      disconnect();
+    }
+  }, [isLoggedIn, disconnect]);
 
   return isLoggedIn ? (
     <Tab.Navigator>

@@ -14,7 +14,7 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import {RootStackParamList} from '../../AppIneer';
-import {useAppDispatch} from '../store';
+import {useAppDispatch} from '../store'; //useDispatch에 type추가
 import userSlice from '../slices/user';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
@@ -55,9 +55,13 @@ function SignIn({navigation}: SignInScreenProps) {
         userSlice.actions.setUser({
           name: response.data.data.name,
           email: response.data.data.email,
-          accessToken: response.data.data.accessToken,
+          accessToken: response.data.data.accessToken, //서버에서 accessToken을 유효시간을 분석
         }),
       );
+      //accessToken,refreshToken 분리저장하는이유: 동시에 털릴까바
+      //refreshToken이 털리면 서버에서 refreshToken을 강제로 없애는 로직을 추가해야함
+
+      //prmise라서 await붙여야
       await EncryptedStorage.setItem(
         'refreshToken',
         response.data.data.refreshToken,
@@ -177,3 +181,4 @@ export default SignIn;
 //secureTextEntry:비밀번호 암호로
 //TextInput option들은 공식문서 참고
 //요새는 import {AsyncStorage} from 'react-native' 보다 암호화된+앱을껏다켜도 유지되는 EncryptedStorage사용
+//import {useAppDispatch} from '../store'; //useDispatch에 type추가

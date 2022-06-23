@@ -11,12 +11,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
+      //동기액션
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.accessToken = action.payload.accessToken;
     },
   },
-  extraReducers: builder => {},
+  extraReducers: builder => {}, //비동기액션
 });
 
 export default userSlice;
