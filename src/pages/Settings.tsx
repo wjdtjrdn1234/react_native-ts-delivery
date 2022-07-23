@@ -11,22 +11,23 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 function Settings() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  // const money = useSelector((state: RootState) => state.user.money);
+  const money = useSelector((state: RootState) => state.user.money);
   const name = useSelector((state: RootState) => state.user.name);
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   async function getMoney() {
-  //     const response = await axios.get<{data: number}>(
-  //       `${Config.API_URL}/showmethemoney`,
-  //       {
-  //         headers: {authorization: `Bearer ${accessToken}`},
-  //       },
-  //     );
-  //     dispatch(userSlice.actions.setMoney(response.data.data));
-  //   }
-  //   getMoney();
-  // }, [accessToken, dispatch]);
+  useEffect(() => {
+    //수익금 불러오기
+    async function getMoney() {
+      const response = await axios.get<{data: number}>(
+        `${Config.API_URL}/showmethemoney`,
+        {
+          headers: {authorization: `Bearer ${accessToken}`},
+        },
+      );
+      dispatch(userSlice.actions.setMoney(response.data.data));
+    }
+    getMoney();
+  }, [accessToken, dispatch]);
 
   const onLogout = useCallback(async () => {
     try {
@@ -36,7 +37,7 @@ function Settings() {
         {},
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`, //Bearer -> 서버개발자와 약속된부분
           },
         },
       );
@@ -61,7 +62,7 @@ function Settings() {
         <Text style={styles.moneyText}>
           {name}님의 수익금{' '}
           <Text style={{fontWeight: 'bold'}}>
-            {/* {money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
+            {money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Text>
           원
         </Text>
